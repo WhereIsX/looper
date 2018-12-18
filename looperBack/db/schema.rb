@@ -16,12 +16,12 @@ ActiveRecord::Schema.define(version: 2018_12_14_195937) do
   enable_extension "plpgsql"
 
   create_table "code_bits", force: :cascade do |t|
-    t.bigint "to_be_looped_id"
+    t.bigint "collection_id"
     t.text "element"
     t.text "block"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["to_be_looped_id"], name: "index_code_bits_on_to_be_looped_id"
+    t.index ["collection_id"], name: "index_code_bits_on_collection_id"
   end
 
   create_table "variables", force: :cascade do |t|
