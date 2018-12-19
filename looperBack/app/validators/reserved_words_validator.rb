@@ -7,7 +7,7 @@ class KeywordsValidator < ActiveModel::Validator
       if match_dangerous_keywords?(record[attribute])
         record.errors.add(
           attribute,
-          "includes unaccepted keywords-- are trying to use 'require' or 'gem'? "
+          "includes unaccepted keywords-- no #{dangerous_keywords} please"
         )
       end
     end
@@ -17,8 +17,15 @@ class KeywordsValidator < ActiveModel::Validator
 
   private
 
+  def dangerous_keywords
+    ["require", "gem"]
+  end
+
   def match_dangerous_keywords?(users_code)
-    users_code.match?(/require/) || users_code.match?(/gem/)
+    dangerous_keywords.each do |dk|
+      return true if users_code.match?(dk)
+    end
+    return false
   end
 
 end

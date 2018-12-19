@@ -9,9 +9,7 @@ class VariablesController < ApplicationController
     paired_vars.each do |var_info|
       var_info[:code_bit_id] = code_id
       var = Variable.create(var_info)
-      if !var.valid?
-        return var.errors.full_messages
-      end
+      return var.errors.full_messages if !var.valid?
     end
     return nil
   end
@@ -21,8 +19,8 @@ class VariablesController < ApplicationController
   end
 
 
-  private
 
+  private
   def complete_pairs?
     # compare count of vars_params to
     # correctly paired vars {varA_name:, varA_value}
@@ -62,12 +60,9 @@ class VariablesController < ApplicationController
     abc = [*('A'..'Z')]
     possible_vars = []
     abc.each do  |letter|
-      possible_vars << "var#{letter}_name" 
+      possible_vars << "var#{letter}_name"
       possible_vars << "var#{letter}_value"
     end
     return possible_vars
   end
-
-
-
 end
