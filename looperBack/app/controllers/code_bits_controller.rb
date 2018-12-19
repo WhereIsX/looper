@@ -9,7 +9,6 @@ class CodeBitsController < ApplicationController
         error = vars_ctrl.create_all(code.id)
         if error.nil?
           add_collection_id(code)
-
           render json: {states: code.evaluate}
         else
           render json: { "Variable error(s)": error },

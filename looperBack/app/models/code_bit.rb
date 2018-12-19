@@ -16,13 +16,14 @@ class CodeBit < ApplicationRecord
   end
 
 
-
+  private
   def stitched_block
     stitched = vars_declaration + block_generator
   end
 
   def vars_declaration
-    declared = self.variables.collect { |var|
+    binding.pry
+    declared = variables.collect { |var|
       "#{var.name} = #{var.value} \n "
     }.join("")
     decl_state = "states = [] \n"
@@ -31,19 +32,19 @@ class CodeBit < ApplicationRecord
 
   def block_generator
     block = <<-RUBY
-      #{self.collection.name}.each do |#{self.element}|
-        #{self.states_collection}
-        #{self.block}
-        #{self.states_collection}
+      #{collection.name}.each do |#{element}|
+        #{states_collection}
+        #{block}
+        #{states_collection}
       end
       return states
     RUBY
   end
 
   def states_collection
-    el = "#{self.element}: #{self.element}, "
-    vars = self.variables.collect { |var|
-      "#{var.name}: #{var.name}.to_s, "
+    el = "#{element}: #{element}, "
+    vars = variables.collect { |var|
+      "#{var.name}: #{var.name}.dup, "
     }.join
 
     return "states << {#{el} #{vars} }"
