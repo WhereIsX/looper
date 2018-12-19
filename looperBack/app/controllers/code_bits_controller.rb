@@ -8,7 +8,7 @@ class CodeBitsController < ApplicationController
       if code.valid?
         error = vars_ctrl.create_all(code.id)
         if error
-          render json: { "error(s) from invalid #create_all": error },
+          render json: { "Variable error(s)": error },
           status: 422
         else
           add_collection_id(code)
@@ -37,6 +37,5 @@ class CodeBitsController < ApplicationController
       name: params[:code][:collection]
     ).id
   end
-
 
 end

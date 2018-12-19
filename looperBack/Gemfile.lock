@@ -117,6 +117,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    require_all (2.0.0)
     ruby_dep (1.5.0)
     slop (3.6.0)
     spring (2.0.2)
@@ -152,6 +153,7 @@ DEPENDENCIES
   puma (~> 3.11)
   rack-cors
   rails (~> 5.2.2)
+  require_all
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data

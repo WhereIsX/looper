@@ -1,9 +1,15 @@
+require_all 'app/validators/'
+
 class CodeBit < ApplicationRecord
   has_many :variables
   belongs_to :collection, class_name: "Variable", optional:true
 
   validates :block, presence: true
   validates :element, presence: true
+  validates_with KeywordsValidator, attrs: [:block, :element]
+
+
+
 
   # also needs to verify is alphanumeric?
   # does not contain keywords: require
