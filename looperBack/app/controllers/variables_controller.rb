@@ -24,7 +24,7 @@ class VariablesController < ApplicationController
   def complete_pairs?
     # compare count of vars_params to
     # correctly paired vars {varA_name:, varA_value}
-    (vars_params.to_h.count / 2.0) == paired_vars.count
+    (vars_params.keys.count / 2.0) == paired_vars.count
   end
 
   def includes_collection?

@@ -8,7 +8,8 @@ class CodeBit < ApplicationRecord
   validates :element, presence: true
   validates_with KeywordsValidator, attrs: [:block, :element]
 
-
+  # using .lambda here because
+  # eval() does not take in keyword return
   def evaluate
     lambda do
       eval(stitched_block)
@@ -22,7 +23,6 @@ class CodeBit < ApplicationRecord
   end
 
   def vars_declaration
-    binding.pry
     declared = variables.collect { |var|
       "#{var.name} = #{var.value} \n "
     }.join("")
@@ -30,18 +30,23 @@ class CodeBit < ApplicationRecord
     return declared + decl_state
   end
 
+
+  # state_collection
   def block_generator
     block = <<-RUBY
       #{collection.name}.each do |#{element}|
-        #{states_collection}
+        #{state_collection}
         #{block}
-        #{states_collection}
+        #{state_collection}
       end
       return states
     RUBY
   end
 
-  def states_collection
+
+  # CodeBit#state_collection uses .dup because
+  # .eval() returns mutated variables in their final state
+  def state_collection
     el = "#{element}: #{element}, "
     vars = variables.collect { |var|
       "#{var.name}: #{var.name}.dup, "

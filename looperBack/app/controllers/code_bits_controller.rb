@@ -1,58 +1,39 @@
 class CodeBitsController < ApplicationController
 
+
   def create
 
     vars_ctrl = VariablesController.new(params)
-    if vars_ctrl.complete_var_params?
-      code = CodeBit.create(code_params)
-      if code.valid?
-        error = vars_ctrl.create_all(code.id)
-        if error.nil?
-          add_collection_id(code)
-          render json: {states: code.evaluate}
-        else
-          render json: { "Variable error(s)": error },
-          status: 422
-        end
-      else
-        render json: { "error(s) from ": code.errors.full_messages },
-          status: 422
-      end
-    else
+
+    # if variables are incomplete / not paired
+    if !vars_ctrl.complete_var_params?
       render json: { "error(s)": "invalid variable pairs or code params" },
         status: 422
+    else
+      code = CodeBit.create(code_params)
+
+      # if CodeBit was invalid e.g., dangerous keywords
+      if !code.valid?
+        render json: { "error(s) from ": code.errors.full_messages },
+          status: 422
+      else
+        error = vars_ctrl.create_all(code.id)
+
+        # if a Variable was invalid (errors on first invalid Variable)
+        if error
+          render json: { "Variable error(s)": error },
+          status: 422
+
+        # everything else assumes passed strong params & validated input
+        else
+          add_collection_id(code)
+
+          # CodeBit#evaluate
+          render json: {states: code.evaluate}
+        end
+      end
     end
-
   end
-
-  # def create
-  #   vars_ctrl = VariablesController.new(params)
-  #   if !vars_ctrl.complete_var_params?
-  #     render json: { "error(s)": "invalid variable pairs or code params" },
-  #       status: 422
-  #
-  #   else
-  #     code = CodeBit.create(code_params)
-
-  #     if !code.valid?
-  #       render json: { "error(s) from ": code.errors.full_messages },
-  #         status: 422
-  #
-  #     else
-  #       error = vars_ctrl.create_all(code.id)
-
-  #       if error
-  #         render json: { "Variable error(s)": error },
-  #         status: 422
-  #
-  #       else
-  #         add_collection_id(code)
-  #
-  #         render json: {code: code, variables: code.variables}
-  #       end
-  #     end
-  #   end
-  # end
 
 
 

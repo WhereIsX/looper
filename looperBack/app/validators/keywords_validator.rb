@@ -3,6 +3,8 @@ class KeywordsValidator < ActiveModel::Validator
 
   def validate(record)
 
+    # (record) is a class instance
+    # options is an obj passed in by #validates_with (see models)
     options[:attrs].each do |attribute|
       if match_dangerous_keywords?(record[attribute])
         record.errors.add(
@@ -22,8 +24,8 @@ class KeywordsValidator < ActiveModel::Validator
   end
 
   def match_dangerous_keywords?(users_code)
-    dangerous_keywords.each do |dk|
-      return true if users_code.match?(dk)
+    dangerous_keywords.each do |danger|
+      return true if users_code.match?(danger)
     end
     return false
   end
