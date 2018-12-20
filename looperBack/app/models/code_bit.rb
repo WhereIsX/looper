@@ -17,7 +17,7 @@ class CodeBit < ApplicationRecord
   end
 
 
-  private
+
   def stitched_block
     stitched = vars_declaration + block_generator
   end
@@ -33,7 +33,7 @@ class CodeBit < ApplicationRecord
 
   # state_collection
   def block_generator
-    block = <<-RUBY
+    iter = <<-RUBY
       #{collection.name}.each do |#{element}|
         #{state_collection}
         #{block}
@@ -41,6 +41,7 @@ class CodeBit < ApplicationRecord
       end
       return states
     RUBY
+
   end
 
 
