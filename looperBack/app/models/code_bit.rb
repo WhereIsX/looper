@@ -9,13 +9,12 @@ class CodeBit < ApplicationRecord
   validates_with KeywordsValidator, attrs: [:block, :element]
 
   # using .lambda here because
-  # eval() does not take in keyword return
+  # eval() alone errors with keyword return 
   def evaluate
     lambda do
       eval(stitched_block)
     end.call
   end
-
 
 
   def stitched_block

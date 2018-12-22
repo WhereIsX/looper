@@ -27,7 +27,7 @@ class CodeBitsController < ApplicationController
         # everything else assumes passed strong params & validated input
         else
           add_collection_id(code)
-          
+          binding.pry
           # CodeBit#evaluate
           render json: {states: code.evaluate}
         end
