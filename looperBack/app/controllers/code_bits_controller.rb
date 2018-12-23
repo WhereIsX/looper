@@ -3,11 +3,13 @@ class CodeBitsController < ApplicationController
 
   def create
 
-    vars_ctrl = VariablesController.new(params)
 
+
+    vars_ctrl = VariablesController.new(params)
+    binding.pry
     # if variables are incomplete / not paired
-    if !vars_ctrl.complete_var_params?
-      render json: { "error(s)": "invalid variable pairs or code params" },
+    if !vars_ctrl.sane_var_params?
+      render json: { "error(s)": "invalid variable pairs or collection is not iterable" },
         status: 422
     else
       code = CodeBit.create(code_params)
@@ -27,7 +29,7 @@ class CodeBitsController < ApplicationController
         # everything else assumes passed strong params & validated input
         else
           add_collection_id(code)
-          binding.pry
+
           # CodeBit#evaluate
           render json: {states: code.evaluate}
         end
