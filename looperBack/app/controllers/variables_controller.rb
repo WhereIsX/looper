@@ -15,12 +15,12 @@ class VariablesController < ApplicationController
   end
 
   def sane_var_params?
-    complete_pairs? && include_collection?
+    (complete_pairs? && include_collection?) && collection_is_enumerable?
   end
 
 
 
-  private
+  # private
   def complete_pairs?
     vars_params.each do |var|
       return false if var["name"].nil? || var["value"].nil?
@@ -34,8 +34,20 @@ class VariablesController < ApplicationController
   end
 
   def collection
-    collection = @params[:code][:collection]
-    # what if collection is nil?
+    collection = @params['code']['collection']
+    # what if collection is not an array?
+  end
+
+  def collection_is_enumerable?
+    @params['vars'].each do |var|
+      # binding.pry
+      return false if (var['name'] == collection) && is_enumerable?(var['value'])
+    end
+    return true
+  end
+
+  def is_enumerable?(str)
+    str.match?(/\[[A-Za-z\d\s,]*\]/)
   end
 
   def vars_params
