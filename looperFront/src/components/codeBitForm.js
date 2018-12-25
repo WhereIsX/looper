@@ -56,9 +56,9 @@ class CodeBitForm extends Component {
     })
     .then(resp => resp.json())
     .then(data =>
-      this.setstate({
-        states: data
-      })
+      // this.setstate({
+      //   states: data
+      // })
     )
   }
 
