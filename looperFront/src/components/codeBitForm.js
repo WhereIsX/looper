@@ -6,20 +6,37 @@ import {connect} from 'react-redux'
 class CodeBitForm extends Component {
 
   state = {
-    varA_name: "",
-    varA_value: "",
-    varB_name: "",
-    varB_value: "",
     collection: "",
     element: "",
     block:"",
-    states: [],
+    vars: [
+      {name: "", value: ""},
+      {name: "", value: ""}
+    ]
   };
 
-  handleChange = (e) => {
+  handleCBChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
     })
+  }
+
+  handleVarsChange = (e) => {
+
+
+    console.log("The target is: ", e.target)
+    console.log("The prev state is: ", this.state.vars)
+    console.log("The new state state would be : ")
+    const vars = this.state.vars
+    const n = e.target.id
+    let thisVar = {...vars[n]}
+    // modify thisVar
+    thisVar[e.target.name] = e.target.value
+    this.setState(
+      {...this.state,
+        vars: [].concat(vars.slice(0,n), [thisVar], vars.slice(n+1))
+      }
+    )
   }
 
   handleSubmit = (e) => {
@@ -34,11 +51,7 @@ class CodeBitForm extends Component {
           "collection": `${this.state.collection}`,
           "element": `${this.state.element}`,
           "block": `${this.state.block}` },
-	      "vars": {
-		      "varA_name": `${this.state.varA_name}`,
-          "varA_value": `${this.state.varA_value}`,
-          "varB_name": `${this.state.varB_name}`,
-          "varB_value": `${this.state.varB_value}` }
+	      "vars": `${this.state.vars}`
       })
     })
     .then(resp => resp.json())
@@ -52,8 +65,7 @@ class CodeBitForm extends Component {
 
   render() {
     const {
-      varA_name, varA_value,
-      varB_name, varB_value,
+      vars,
       collection,
       element,
       block,
@@ -63,47 +75,51 @@ class CodeBitForm extends Component {
       <form onSubmit={this.handleSubmit}>
 
         <input type="text"
-          name="varA_name"
+          name="name"
+          id = "0"
           placeholder="variable_name"
-          value={varA_name}
-          onChange={this.handleChange}
+          value={vars[0].name}
+          onChange={this.handleVarsChange}
         /> =
         <input type="text"
-          name="varA_value"
-          placeholder="variable_value"
-          value={varA_value}
-          onChange={this.handleChange}
+          name="value"
+          id = '0'
+          placeholder="some_value"
+          value={vars[0].value}
+          onChange={this.handleVarsChange}
         />
       <br/>
       <br/>
-      
         <input type="text"
-          name="varB_name"
+          name="name"
+          id = "1"
           placeholder="variable_name"
-          value={varB_name}
-          onChange={this.handleChange}
+          value={vars[1].name}
+          onChange={this.handleVarsChange}
         /> =
         <input type="text"
-          name="varB_value"
-          placeholder="variable_value"
-          value={varB_value}
-          onChange={this.handleChange}
+          name="value"
+          id = '1'
+          placeholder="some_value"
+          value={vars[1].value}
+          onChange={this.handleVarsChange}
         />
-        <br/>
-        <br/>
+      <br/>
+      <br/>
+
 
         <input type="text"
           name="collection"
           placeholder="collection"
           value={collection}
-          onChange={this.handleChange}
+          onChange={this.handleCBChange}
         />
       .each do
         |<input type="text"
           name="element"
           placeholder="element"
           value={element}
-          onChange={this.handleChange}
+          onChange={this.handleCBChange}
         />|
         <br/>
         <br/>
@@ -111,7 +127,7 @@ class CodeBitForm extends Component {
           name="block"
           placeholder="what should happen to every `element` in `block`?"
           value={block}
-          onChange={this.handleChange}
+          onChange={this.handleCBChange}
         />
         <br/>
         <br/>
