@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
+import {nextState} from '../redux/actions'
+import {prevState} from '../redux/actions'
+
+
 // import VarDisplay from './components/varDisplay';
 
 class Animation extends Component {
 
-  states_display = () => {
+  displayCurrentState = () => {
     const {all_states, current_state} = this.props.state
+    let this_state = all_states[current_state]
+    console.log("This state is: ", this_state)
 
     return (
       <div>
@@ -14,18 +20,19 @@ class Animation extends Component {
     )
   }
 
+  handleNextClick = () => { this.props.nextState() }
+  handlePrevClick = () => { this.props.prevState() }
 
   render(){
 
-    console.log("Inherited States", this.props);
-
-    console.log("To Be Displayed ", this.props.state.all_states[this.props.state.current_state])
-
     return(
       <div>
-          <p> Let me show you how that looks! </p>
-          <br></br>
-          {this.states_display()}
+        <p> Let me show you how that looks! </p>
+        <br></br>
+        {this.displayCurrentState()}
+        <br></br>
+        <button onClick={this.handleNextClick}> Next </button>
+        <button onClick={this.handlePrevClick}> Previous </button>
       </div>
     )
   }
@@ -36,4 +43,4 @@ const mapStateToProps = (state) => {
   return {state}
 }
 
-export default connect(mapStateToProps)(Animation)
+export default connect(mapStateToProps, {nextState, prevState})(Animation)
