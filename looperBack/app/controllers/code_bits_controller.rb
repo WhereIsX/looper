@@ -4,8 +4,6 @@ class CodeBitsController < ApplicationController
   def create
 
 
-
-
     # if variables are incomplete / not paired
     vars_ctrl = VariablesController.new(params)
     if !vars_ctrl.sane_var_params?
@@ -34,7 +32,8 @@ class CodeBitsController < ApplicationController
 
     # everything else assumes passed strong params & validated input
     add_collection_id(code)
-    render json: {states: code.evaluate}
+
+    render json: code.states_stringified
 
   end
 

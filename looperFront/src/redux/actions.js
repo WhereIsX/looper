@@ -1,6 +1,6 @@
-export const submitCodeBit = (codeBit) => {
+export const setInitStates = (states) => {
   return {
-    type: "SUBMIT_CODEBIT",
-    payload: codeBit
+    type: "SET_INIT_STATES",
+    payload: states
   }
 }

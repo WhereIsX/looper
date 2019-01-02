@@ -20,7 +20,7 @@ class VariablesController < ApplicationController
 
 
 
-  private
+  # private
   def complete_pairs?
     vars_params.each do |var|
       return false if var["name"].nil? || var["value"].nil?
@@ -40,9 +40,10 @@ class VariablesController < ApplicationController
 
   def collection_is_enumerable?
     @params['vars'].each do |var|
-      return false if (var['name'] == collection) && is_enumerable?(var['value'])
+      # binding.pry
+      return true if (var['name'] == collection) && is_enumerable?(var['value'])
     end
-    return true
+    return false
   end
 
   def is_enumerable?(str)

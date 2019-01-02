@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-
+import {setInitStates} from '../redux/actions'
 // import { Button, Checkbox, Form } from 'semantic-ui-react'
 
 class CodeBitForm extends Component {
@@ -23,10 +23,6 @@ class CodeBitForm extends Component {
 
   handleVarsChange = (e) => {
 
-
-    console.log("The target is: ", e.target)
-    console.log("The prev state is: ", this.state.vars)
-    console.log("The new state state would be : ")
     const vars = this.state.vars
     const n = e.target.id
     let thisVar = {...vars[n]}
@@ -41,6 +37,9 @@ class CodeBitForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
+
+    console.log("submitted!")
+
     fetch('http://localhost:3005/code_bits', {
       method: 'POST',
       headers: {
@@ -51,15 +50,15 @@ class CodeBitForm extends Component {
           "collection": `${this.state.collection}`,
           "element": `${this.state.element}`,
           "block": `${this.state.block}` },
-	      "vars": `${this.state.vars}`
+	      "vars": this.state.vars
       })
     })
     .then(resp => resp.json())
-    .then(data =>
-      // this.setstate({
-      //   states: data
-      // })
-    )
+    .then(data => {
+      console.log("hi this is the response", data)
+      this.props.setInitStates(data)
+    })
+
   }
 
 
@@ -141,4 +140,6 @@ class CodeBitForm extends Component {
   }
 }
 
-export default CodeBitForm;
+
+
+export default connect(null, {setInitStates})(CodeBitForm)

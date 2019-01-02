@@ -8,14 +8,25 @@ class CodeBit < ApplicationRecord
   validates :element, presence: true
   validates_with KeywordsValidator, attrs: [:block, :element]
 
+
+  def states_stringified
+    evaluate.collect do |hsh|
+      b = ""
+      hsh.each do |v_name, v_value|
+        b += "#{v_name.to_s}, #{v_value.to_s} <br></br>"
+      end
+      b
+    end
+  end
+
   # using .lambda here because
-  # eval() alone errors with keyword return 
+  # eval() alone errors with "return" within string;
+  # => need a wrapper!
   def evaluate
     lambda do
       eval(stitched_block)
     end.call
   end
-
 
   def stitched_block
     stitched = vars_declaration + block_generator
@@ -52,7 +63,7 @@ class CodeBit < ApplicationRecord
       "#{var.name}: #{var.name}.dup, "
     }.join
 
-    return "states << {#{el} #{vars} }"
+    return "states << { #{el} #{vars} }"
   end
 
 end
