@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import './App.css';
 import Animation from './components/animation';
 import CodeBitForm from './components/codeBitForm.js';
 import Intro from './components/intro.js';

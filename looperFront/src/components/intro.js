@@ -11,10 +11,10 @@ class Intro extends Component {
   render(){
     return(
       <div>
-        <Typography variant="h3" align="center" gutterBottom>
+        <Typography variant="h4" gutterBottom>
           Welcome to Looper!
         </Typography>
-        <Typography variant="h6" align="center" gutterBottom>
+        <Typography variant="caption" gutterBottom>
           We think loops are cool... so give us a `.each` loop
           and let us animate it for you!
         </Typography>

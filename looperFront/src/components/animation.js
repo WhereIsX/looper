@@ -36,6 +36,8 @@ class Animation extends Component {
 
     return (
       <div>
+        <Typography variant="h6" align="center" gutterBottom>
+          <br></br>
         <Button className={classes.button} variant="outlined" size="small"
           disabled={current_state === 0 } onClick={this.handlePrevClick}>
           Prev
@@ -44,6 +46,7 @@ class Animation extends Component {
           disabled={current_state >= totalStates} onClick={this.handleNextClick}>
           Next
         </Button>
+        </Typography>
       </div>
     )
   }

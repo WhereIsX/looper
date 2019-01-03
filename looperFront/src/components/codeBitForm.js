@@ -27,17 +27,15 @@ class CodeBitForm extends Component {
     if (e.target.id ){
       let vars = [...this.state.vars]
       vars[e.target.id][e.target.name] = e.target.value
-      this.setState({ vars }, () => console.log(this.state))
+      this.setState({ vars })
     } else {
-      this.setState({
-        [e.target.name]: e.target.value
-      })
+      this.setState({ [e.target.name]: e.target.value })
     }
   }
 
-  handleChangeSubmit = (e) => {
+  handleSubmit = (e) => {
     e.preventDefault()
-
+    console.log('uh huh')
     fetch('http://localhost:3005/code_bits', {
       method: 'POST',
       headers: {
@@ -52,7 +50,16 @@ class CodeBitForm extends Component {
       })
     })
     .then(resp => resp.json())
-    .then(data => { this.props.setInitStates(data) })
+    .then(data => {
+      console.log(data);
+
+     })
+  }
+
+  addVar = (e) => {
+    this.setState( (prevState) => ({
+      vars: [...prevState.vars, {name:"", value:""}],
+    }));
   }
 
 
@@ -67,56 +74,39 @@ class CodeBitForm extends Component {
     const { classes } = this.props;
 
     return (
-      <div >
       <form className={classes.container}
         onSubmit={this.handleSubmit}
         autoComplete='off'
         onChange={this.handleChange}
       >
-        <TextField
-          id="0"
-          placeholder="variable_name"
-          value={vars[0].name}
-          className={classes.textField}
-          margin="none"
-          name = "name"
-        />
-        <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
-          =
-        </Typography>
-       <TextField
-         id="0"
-         placeholder="variable_value"
-         value={vars[0].value}
-         className={classes.textField}
-         name = "value"
-         margin="none"
-       />
+      {vars.map ( (variable, index) => {
+        return(
+          <div key={index}>
+            <TextField
+              id={index}
+              placeholder="variable_name"
+              value={vars[index].name}
+              className={classes.textField}
+              name = "name"
+              />
+            <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
+              =
+            </Typography>
+            <TextField
+              id={index}
+              placeholder="variable_value"
+              value={vars[index].value}
+              className={classes.textField}
+              name = "value"
+              />
+          </div>
+        )
+      })}
+      <Button className={classes.button} variant="outlined" size="small" onClick={this.addVar}>
+        Add Variable
+      </Button>
       <br/>
       <br/>
-      <TextField
-        id="1"
-        placeholder="variable_name"
-        value={vars[1].name}
-        className={classes.textField}
-        name = "name"
-        margin="none"
-      />
-      <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
-        =
-      </Typography>
-     <TextField
-       id="1"
-       placeholder="variable_value"
-       value={vars[1].value}
-       className={classes.textField}
-       name = "value"
-       margin="none"
-     />
-      <br/>
-      <br/>
-
-
       <TextField
         placeholder="collection"
         name = "collection"
@@ -134,14 +124,13 @@ class CodeBitForm extends Component {
         style={{ width:80 }}
       /> |
         <br/>
-        <br/>
       <TextField
         placeholder="block"
         name = "block"
         value={block}
         className={classes.textField}
         margin="none"
-        style={{ width:420 }}
+        style={{ width:382 }}
       />
       <br/>
       <br/>
@@ -150,13 +139,12 @@ class CodeBitForm extends Component {
       </Typography>
       <br/>
       <br/>
-      <Button className={classes.button} variant="outlined" size="small"
-        onClick={this.handleSubmit} style={{justifyContent: 'center'}}>
-        Loop it!
-      </Button>
+      <input type="submit" value="Submit" />
+      <br/>
+      <br/>
 
       </form>
-    </div>
+
     );
   }
 }
