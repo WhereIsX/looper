@@ -11,11 +11,11 @@ class CodeBit < ApplicationRecord
 
   def states_stringified
     evaluate.collect do |hsh|
-      b = ""
-      hsh.each do |v_name, v_value|
-        b += "#{v_name.to_s}, #{v_value.to_s} <br></br>"
+
+      hsh.collect do |v_name, v_value|
+        "#{v_name.to_s}: #{v_value.to_s} "
       end
-      b
+
     end
   end
 
