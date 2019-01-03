@@ -9,7 +9,8 @@ import styles from '../styles.js'
 import TextField from "@material-ui/core/TextField";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 class CodeBitForm extends Component {
 
@@ -79,32 +80,58 @@ class CodeBitForm extends Component {
         autoComplete='off'
         onChange={this.handleChange}
       >
-      {vars.map ( (variable, index) => {
-        return(
-          <div key={index}>
-            <TextField
-              id={index}
-              placeholder="variable_name"
-              value={vars[index].name}
-              className={classes.textField}
-              name = "name"
-              />
-            <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
-              =
-            </Typography>
-            <TextField
-              id={index}
-              placeholder="variable_value"
-              value={vars[index].value}
-              className={classes.textField}
-              name = "value"
-              />
-          </div>
-        )
+      {vars.map ( (variable, index, orig_arr) => {
+
+        if (orig_arr.length - 1 === index) {
+          return(
+            <div key={index}>
+              <TextField
+                id={index}
+                placeholder="variable_name"
+                value={vars[index].name}
+                className={classes.textField}
+                name = "name"
+                />
+              <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
+                =
+              </Typography>
+              <TextField
+                id={index}
+                placeholder="variable_value"
+                value={vars[index].value}
+                className={classes.textField}
+                name = "value"
+                />
+              <Fab size="small" color="primary" aria-label="Add" className={classes.margin} onClick={this.addVar}>
+                <AddIcon />
+              </Fab>
+            </div>
+          )
+        } else {
+          return(
+            <div key={index}>
+              <TextField
+                id={index}
+                placeholder="variable_name"
+                value={vars[index].name}
+                className={classes.textField}
+                name = "name"
+                />
+              <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
+                =
+              </Typography>
+              <TextField
+                id={index}
+                placeholder="variable_value"
+                value={vars[index].value}
+                className={classes.textField}
+                name = "value"
+                />
+            </div>
+          )
+        }
       })}
-      <Button className={classes.button} variant="outlined" size="small" onClick={this.addVar}>
-        Add Variable
-      </Button>
+
       <br/>
       <br/>
       <TextField

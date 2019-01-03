@@ -26,6 +26,12 @@ const styles = theme => ({
   menu: {
     width: 200
   },
+  margin: {
+  margin: theme.spacing.unit,
+  },
+  extendedIcon: {
+    marginRight: theme.spacing.unit,
+  },
 });
 
 export default styles
