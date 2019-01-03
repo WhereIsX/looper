@@ -90,7 +90,6 @@ class CodeBitForm extends Component {
          value={vars[0].value}
          className={classes.textField}
          name = "value"
-
          margin="none"
        />
       <br/>
@@ -101,7 +100,6 @@ class CodeBitForm extends Component {
         value={vars[1].name}
         className={classes.textField}
         name = "name"
-
         margin="none"
       />
       <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
@@ -113,7 +111,6 @@ class CodeBitForm extends Component {
        value={vars[1].value}
        className={classes.textField}
        name = "value"
-
        margin="none"
      />
       <br/>
@@ -125,8 +122,6 @@ class CodeBitForm extends Component {
         name = "collection"
         value={collection}
         className={classes.textField}
-
-
       />
       <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
         .each do |
@@ -136,7 +131,6 @@ class CodeBitForm extends Component {
         name = "element"
         value={element}
         className={classes.textField}
-
         style={{ width:80 }}
       /> |
         <br/>
@@ -146,9 +140,7 @@ class CodeBitForm extends Component {
         name = "block"
         value={block}
         className={classes.textField}
-
         margin="none"
-
         style={{ width:420 }}
       />
       <br/>
