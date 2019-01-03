@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {setInitStates} from '../redux/actions'
+import {setError} from '../redux/actions'
+
 
 // MaterialUI
 import PropTypes from "prop-types";
@@ -8,7 +10,7 @@ import { withStyles } from "@material-ui/core/styles";
 import styles from '../styles.js'
 import TextField from "@material-ui/core/TextField";
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
@@ -36,7 +38,7 @@ class CodeBitForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    console.log('uh huh')
+
     fetch('http://localhost:3005/code_bits', {
       method: 'POST',
       headers: {
@@ -52,7 +54,19 @@ class CodeBitForm extends Component {
     })
     .then(resp => resp.json())
     .then(data => {
-      console.log(data);
+
+
+      console.log("the response is ", data);
+      console.log("the status is ", data['status'])
+
+      if (data.status === 500 || data['error(s)']) {
+        console.log("you've an ERROR somewhere")
+        this.props.setError(data)
+      } else if (data.status === undefined) {
+        console.log("nice! Ya didn't break it")
+        this.props.setInitStates(data)
+      }
+
 
      })
   }
@@ -101,6 +115,7 @@ class CodeBitForm extends Component {
                 value={vars[index].value}
                 className={classes.textField}
                 name = "value"
+                style={{ width:500 }}
                 />
               <Fab size="small" color="primary" aria-label="Add" className={classes.margin} onClick={this.addVar}>
                 <AddIcon />
@@ -126,6 +141,7 @@ class CodeBitForm extends Component {
                 value={vars[index].value}
                 className={classes.textField}
                 name = "value"
+                style={{ width:500 }}
                 />
             </div>
           )
@@ -157,7 +173,7 @@ class CodeBitForm extends Component {
         value={block}
         className={classes.textField}
         margin="none"
-        style={{ width:382 }}
+        style={{ width:422 }}
       />
       <br/>
       <br/>
@@ -166,7 +182,7 @@ class CodeBitForm extends Component {
       </Typography>
       <br/>
       <br/>
-      <input type="submit" value="Submit" />
+      <input type="submit" value="" />
       <br/>
       <br/>
 
@@ -180,4 +196,4 @@ CodeBitForm.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(null, {setInitStates})(withStyles(styles)(CodeBitForm))
+export default connect(null, {setInitStates, setError})(withStyles(styles)(CodeBitForm))

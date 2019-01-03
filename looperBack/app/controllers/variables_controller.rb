@@ -15,21 +15,30 @@ class VariablesController < ApplicationController
   end
 
   def sane_var_params?
+    # great place to switch to a switch/case statement!
     (complete_pairs? && include_collection?) && collection_is_enumerable?
+
   end
 
 
 
   # private
+  def remove_empty_pairs
+    vars_params.select do |var|
+      (var["name"] != "" && var["value"])
+    end
+  end
+
+
   def complete_pairs?
-    vars_params.each do |var|
+    remove_empty_pairs.each do |var|
       return false if var["name"].nil? || var["value"].nil?
     end
     return true
   end
 
   def include_collection?
-    var_names = vars_params.collect {|var| var[:name] }
+    var_names = remove_empty_pairs.collect {|var| var[:name] }
     var_names.include?(collection)
   end
 

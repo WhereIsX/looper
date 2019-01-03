@@ -14,7 +14,7 @@ import Button from '@material-ui/core/Button';
 class Animation extends Component {
 
   displayCurrentState = () => {
-    const {all_states, current_state} = this.props.state
+    const {all_states, current_state} = this.props
     const this_state = all_states[current_state]
 
     return (
@@ -30,7 +30,7 @@ class Animation extends Component {
   handlePrevClick = () => { this.props.prevState() }
 
   displayButtons = () => {
-    const {all_states, current_state} = this.props.state
+    const {all_states, current_state} = this.props
     const totalStates = all_states.length - 1
     const { classes } = this.props;
 
@@ -69,7 +69,10 @@ class Animation extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {state}
+  return {
+    all_states: state.all_states,
+    current_state: state.current_state
+  }
 }
 
 Animation.propTypes = {

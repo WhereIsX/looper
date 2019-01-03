@@ -12,6 +12,9 @@ const reducer = (state = defaultState, action) => {
       const all_states = action.payload
       return {all_states, current_state: 0 }
 
+    case "SET_ERROR":
+      return {...state, error: action.payload}
+
     case "NEXT_STATE":
       const next_state = state.current_state + 1
       return {...state, current_state: next_state }

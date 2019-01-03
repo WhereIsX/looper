@@ -62,7 +62,6 @@ class CodeBit < ApplicationRecord
     vars = variables.collect { |var|
       "#{var.name}: #{var.name}.dup, "
     }.join
-
     return "states << { #{el} #{vars} }"
   end
 

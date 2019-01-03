@@ -3,6 +3,13 @@ export const setInitStates = (states) => {
     type: "SET_INIT_STATES",
     payload: states
   }
+
+}
+export const setError = (error) => {
+  return {
+    type: "SET_ERROR",
+    payload: error
+  }
 }
 
 export const nextState = () => {
