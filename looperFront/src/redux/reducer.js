@@ -1,6 +1,6 @@
 //state is an object
 const defaultState = {
-  all_states: [[["Nothing to see here", ""]]],
+  all_states: [[""]],
   current_state: 0
 }
 

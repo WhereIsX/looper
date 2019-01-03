@@ -1,42 +1,54 @@
 import React, { Component } from 'react';
-// import './App.css';
+
 import Animation from './components/animation';
 import CodeBitForm from './components/codeBitForm.js';
 import Intro from './components/intro.js';
 
-import { Grid } from 'semantic-ui-react'
-
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-          <Grid>
-            <Grid.Row>
-              <Grid.Column width={8}>
+      <MuiThemeProvider theme={theme}>
+        <div className="App">
 
-                <Intro/>
-                <CodeBitForm/>
+          <Intro/>
+          <CodeBitForm/>
 
-              </Grid.Column>
-              <Grid.Column width={8}>
+          <br></br>
+          <br></br>
 
-                <Animation/>
-
-
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-      </div>
+          <Animation/>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
 
-
-
-
-
-
+const theme = createMuiTheme({
+  typography: {
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      'Roboto Mono',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
+  // typography: {
+  //   useNextVariants: true,
+  // },
+  // palette: {
+  //   type: 'dark',
+  // },
+});
 
 export default App

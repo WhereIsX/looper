@@ -1,7 +1,15 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {setInitStates} from '../redux/actions'
-// import { Button, Checkbox, Form } from 'semantic-ui-react'
+
+// MaterialUI
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import styles from '../styles.js'
+import TextField from "@material-ui/core/TextField";
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+
 
 class CodeBitForm extends Component {
 
@@ -23,22 +31,20 @@ class CodeBitForm extends Component {
 
   handleVarsChange = (e) => {
 
+    const id = e.target.id
+
     const vars = this.state.vars
-    const n = e.target.id
-    let thisVar = {...vars[n]}
-    // modify thisVar
+    let thisVar = {...vars[id]}
     thisVar[e.target.name] = e.target.value
     this.setState(
       {...this.state,
-        vars: [].concat(vars.slice(0,n), [thisVar], vars.slice(n+1))
+        vars: [].concat(vars.slice(0,id), [thisVar], vars.slice(id+1))
       }
     )
   }
 
   handleSubmit = (e) => {
     e.preventDefault()
-
-    console.log("submitted!")
 
     fetch('http://localhost:3005/code_bits', {
       method: 'POST',
@@ -54,11 +60,7 @@ class CodeBitForm extends Component {
       })
     })
     .then(resp => resp.json())
-    .then(data => {
-      console.log("hi this is the response", data)
-      this.props.setInitStates(data)
-    })
-
+    .then(data => { this.props.setInitStates(data) })
   }
 
 
@@ -70,76 +72,112 @@ class CodeBitForm extends Component {
       block,
     } = this.state
 
-    return (
-      <form onSubmit={this.handleSubmit}>
+    const { classes } = this.props;
 
-        <input type="text"
-          name="name"
-          id = "0"
+    return (
+      <div >
+      <form className={classes.container} onSubmit={this.handleSubmit} autoComplete='off'>
+        <TextField
+          id="0"
+          hello="whatsup"
           placeholder="variable_name"
           value={vars[0].name}
+          className={classes.textField}
+          margin="none"
+          name = "name"
           onChange={this.handleVarsChange}
-        /> =
-        <input type="text"
-          name="value"
-          id = '0'
-          placeholder="some_value"
-          value={vars[0].value}
-          onChange={this.handleVarsChange}
+          style={{ align: 'right' }}
         />
+        <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
+          =
+        </Typography>
+       <TextField
+         id="0"
+         placeholder="variable_value"
+         value={vars[0].value}
+         className={classes.textField}
+         name = "value"
+         onChange={this.handleVarsChange}
+         margin="none"
+       />
       <br/>
       <br/>
-        <input type="text"
-          name="name"
-          id = "1"
-          placeholder="variable_name"
-          value={vars[1].name}
-          onChange={this.handleVarsChange}
-        /> =
-        <input type="text"
-          name="value"
-          id = '1'
-          placeholder="some_value"
-          value={vars[1].value}
-          onChange={this.handleVarsChange}
-        />
+      <TextField
+        id="1"
+        placeholder="variable_name"
+        value={vars[1].name}
+        className={classes.textField}
+        name = "name"
+        onChange={this.handleVarsChange}
+        margin="none"
+      />
+      <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
+        =
+      </Typography>
+     <TextField
+       id="1"
+       placeholder="variable_value"
+       value={vars[1].value}
+       className={classes.textField}
+       name = "value"
+       onChange={this.handleVarsChange}
+       margin="none"
+     />
       <br/>
       <br/>
 
 
-        <input type="text"
-          name="collection"
-          placeholder="collection"
-          value={collection}
-          onChange={this.handleCBChange}
-        />
-      .each do
-        |<input type="text"
-          name="element"
-          placeholder="element"
-          value={element}
-          onChange={this.handleCBChange}
-        />|
+      <TextField
+        placeholder="collection"
+        name = "collection"
+        value={collection}
+        className={classes.textField}
+        onChange={this.handleCBChange}
+
+      />
+      <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
+        .each do |
+      </Typography>
+      <TextField
+        placeholder="element"
+        name = "element"
+        value={element}
+        className={classes.textField}
+        onChange={this.handleCBChange}
+        style={{ width:80 }}
+      /> |
         <br/>
         <br/>
-        <input type="text"
-          name="block"
-          placeholder="what should happen to every `element` in `block`?"
-          value={block}
-          onChange={this.handleCBChange}
-        />
-        <br/>
-        <br/>
+      <TextField
+        placeholder="block"
+        name = "block"
+        value={block}
+        className={classes.textField}
+        onChange={this.handleCBChange}
+        margin="none"
+
+        style={{ width:420 }}
+      />
+      <br/>
+      <br/>
+      <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
         end
-        <br/>
-        <br/>
-        <input type="submit" value="Loop it!"/>
+      </Typography>
+      <br/>
+      <br/>
+      <Button className={classes.button} variant="outlined" size="small"
+        onClick={this.handleSubmit} style={{justifyContent: 'center'}}>
+        Loop it!
+      </Button>
 
       </form>
+    </div>
     );
   }
 }
 
+CodeBitForm.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
-
-export default connect(null, {setInitStates})(CodeBitForm)
+export default connect(null, {setInitStates})(withStyles(styles)(CodeBitForm))

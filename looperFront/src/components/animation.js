@@ -3,36 +3,62 @@ import {connect} from 'react-redux'
 import {nextState} from '../redux/actions'
 import {prevState} from '../redux/actions'
 
+// MaterialUI
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import styles from '../styles.js'
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
-// import VarDisplay from './components/varDisplay';
 
 class Animation extends Component {
 
   displayCurrentState = () => {
     const {all_states, current_state} = this.props.state
-    let this_state = all_states[current_state]
-    console.log("This state is: ", this_state)
+    const this_state = all_states[current_state]
 
     return (
-      <div>
-        {all_states[current_state]}
-      </div>
+      this_state.map( (variable, index) =>
+        <Typography key={index} variant="subtitle1" gutterBottom>
+          {variable}
+        </Typography>
+      )
     )
   }
 
   handleNextClick = () => { this.props.nextState() }
   handlePrevClick = () => { this.props.prevState() }
 
+  displayButtons = () => {
+    const {all_states, current_state} = this.props.state
+    const totalStates = all_states.length - 1
+    const { classes } = this.props;
+
+    return (
+      <div>
+        <Button className={classes.button} variant="outlined" size="small"
+          disabled={current_state === 0 } onClick={this.handlePrevClick}>
+          Prev
+        </Button>
+        <Button className={classes.button} variant="outlined" size="small"
+          disabled={current_state >= totalStates} onClick={this.handleNextClick}>
+          Next
+        </Button>
+      </div>
+    )
+  }
+
   render(){
 
     return(
       <div>
-        <p> Let me show you how that looks! </p>
+        <Typography variant="h6" align="center" gutterBottom>
+          Let's see this loop
+        </Typography>
         <br></br>
-        {this.displayCurrentState()}
+        { this.displayCurrentState() }
         <br></br>
-        <button onClick={this.handleNextClick}> Next </button>
-        <button onClick={this.handlePrevClick}> Previous </button>
+        { this.displayButtons() }
       </div>
     )
   }
@@ -43,4 +69,9 @@ const mapStateToProps = (state) => {
   return {state}
 }
 
-export default connect(mapStateToProps, {nextState, prevState})(Animation)
+Animation.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+
+export default connect(mapStateToProps, {nextState, prevState})(withStyles(styles)(Animation))
