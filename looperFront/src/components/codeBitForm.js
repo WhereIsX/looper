@@ -23,27 +23,19 @@ class CodeBitForm extends Component {
     ]
   };
 
-  handleCBChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+  handleChange = (e) => {
+    if (e.target.id ){
+      let vars = [...this.state.vars]
+      vars[e.target.id][e.target.name] = e.target.value
+      this.setState({ vars }, () => console.log(this.state))
+    } else {
+      this.setState({
+        [e.target.name]: e.target.value
+      })
+    }
   }
 
-  handleVarsChange = (e) => {
-
-    const id = e.target.id
-
-    const vars = this.state.vars
-    let thisVar = {...vars[id]}
-    thisVar[e.target.name] = e.target.value
-    this.setState(
-      {...this.state,
-        vars: [].concat(vars.slice(0,id), [thisVar], vars.slice(id+1))
-      }
-    )
-  }
-
-  handleSubmit = (e) => {
+  handleChangeSubmit = (e) => {
     e.preventDefault()
 
     fetch('http://localhost:3005/code_bits', {
@@ -76,17 +68,18 @@ class CodeBitForm extends Component {
 
     return (
       <div >
-      <form className={classes.container} onSubmit={this.handleSubmit} autoComplete='off'>
+      <form className={classes.container}
+        onSubmit={this.handleSubmit}
+        autoComplete='off'
+        onChange={this.handleChange}
+      >
         <TextField
           id="0"
-          hello="whatsup"
           placeholder="variable_name"
           value={vars[0].name}
           className={classes.textField}
           margin="none"
           name = "name"
-          onChange={this.handleVarsChange}
-          style={{ align: 'right' }}
         />
         <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
           =
@@ -97,7 +90,7 @@ class CodeBitForm extends Component {
          value={vars[0].value}
          className={classes.textField}
          name = "value"
-         onChange={this.handleVarsChange}
+
          margin="none"
        />
       <br/>
@@ -108,7 +101,7 @@ class CodeBitForm extends Component {
         value={vars[1].name}
         className={classes.textField}
         name = "name"
-        onChange={this.handleVarsChange}
+
         margin="none"
       />
       <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
@@ -120,7 +113,7 @@ class CodeBitForm extends Component {
        value={vars[1].value}
        className={classes.textField}
        name = "value"
-       onChange={this.handleVarsChange}
+
        margin="none"
      />
       <br/>
@@ -132,7 +125,7 @@ class CodeBitForm extends Component {
         name = "collection"
         value={collection}
         className={classes.textField}
-        onChange={this.handleCBChange}
+
 
       />
       <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
@@ -143,7 +136,7 @@ class CodeBitForm extends Component {
         name = "element"
         value={element}
         className={classes.textField}
-        onChange={this.handleCBChange}
+
         style={{ width:80 }}
       /> |
         <br/>
@@ -153,7 +146,7 @@ class CodeBitForm extends Component {
         name = "block"
         value={block}
         className={classes.textField}
-        onChange={this.handleCBChange}
+
         margin="none"
 
         style={{ width:420 }}
