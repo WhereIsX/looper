@@ -6,7 +6,7 @@ class VariablesController < ApplicationController
 
   def create_all(code_id)
 
-    vars_params.each do |var_info|
+    remove_empty_pairs.each do |var_info|
       var_info[:code_bit_id] = code_id
       var = Variable.create(var_info)
       return var.errors.full_messages if !var.valid?
@@ -16,7 +16,7 @@ class VariablesController < ApplicationController
 
   def sane_var_params?
     # great place to switch to a switch/case statement!
-    (complete_pairs? && include_collection?) && collection_is_enumerable?
+    (complete_pairs? && include_collection?)
 
   end
 
@@ -49,7 +49,7 @@ class VariablesController < ApplicationController
 
   def collection_is_enumerable?
     @params['vars'].each do |var|
-      # binding.pry
+      binding.pry
       return true if (var['name'] == collection) && is_enumerable?(var['value'])
     end
     return false

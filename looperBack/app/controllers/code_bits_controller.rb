@@ -3,7 +3,7 @@ class CodeBitsController < ApplicationController
 
   def create
 
-
+    # binding.pry
     # if variables are incomplete / not paired
     vars_ctrl = VariablesController.new(params)
     if !vars_ctrl.sane_var_params?

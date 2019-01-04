@@ -115,7 +115,7 @@ class CodeBitForm extends Component {
                 value={vars[index].value}
                 className={classes.textField}
                 name = "value"
-                style={{ width:500 }}
+                style={{ width:250 }}
                 />
               <Fab size="small" color="primary" aria-label="Add" className={classes.margin} onClick={this.addVar}>
                 <AddIcon />
@@ -141,7 +141,7 @@ class CodeBitForm extends Component {
                 value={vars[index].value}
                 className={classes.textField}
                 name = "value"
-                style={{ width:500 }}
+                style={{ width:300 }}
                 />
             </div>
           )
@@ -155,6 +155,7 @@ class CodeBitForm extends Component {
         name = "collection"
         value={collection}
         className={classes.textField}
+        multiline={true}
       />
       <Typography variant="subtitle1" className={classes.inLine} gutterBottom>
         .each do |
