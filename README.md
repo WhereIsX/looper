@@ -2,8 +2,7 @@
 
 Hi! Welcome! This is Looper, a Ruby loop animator.  It's meant to take in a small snippet of ruby `.each` code and display the values of all variables through various stages.  Great for beginners learning to code!
 
-http://g.recordit.co/ZwWu6460LV.gif
-
+![](http://g.recordit.co/uIEQLjf9Ck.gif)
 
 **WARNING:** Do not host Looper on a public server.  It is insecure AF.  Looper uses Ruby's `.eval(string)`, which gives tremendous power to the `string` it evaluates.
 
