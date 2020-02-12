@@ -8,17 +8,20 @@ Hi! Welcome! This is Looper, a Ruby loop animator.  It's meant to take in a smal
 
 
 ##### built with
-- Ruby on Rails in the backend, `looperBack`
+- Postgres and Ruby on Rails in the backend, `looperBack`
 - React, Redux, MaterialUI in the frontend, `looperFront`
 
-##### future plans
-I intend to continue working on Looper so that by the end of 2019:
-- it'll be easier on the eye to follow (colors!)
-- add a kind of `setTimeout` so the animation can run itself
-- totally revamp the backend to accomodate more than 1 line in the block (maybe)
-- support other Ruby loops: `.collect`, `.select`, etc
-- it'll be secure enough to host (fingers crossed)
-- if it's still not secure enough, I'll look into some kind of sandboxing method.
+##### future of Looper (end of the line)
+**TLDR:** setting up Looper is not beginner friendly, ergo I'm no longer going to update this repo.  Look out for Looper2.0 though, which will run in your local browser :>  
+
+I recently (Feb 2020) found that Looper is horribly difficult to set up.  Even as the creator of Looper, I'm mildly frustrated that I have to have the right ruby version (thank you rbenv, but idk how your cousin rvm works), the updated bundler, a postgres db ready to be connected, etc.  And if I'm frustrated... then this is *not* a good app for folks learning / getting better at ruby.  While I can make some changes, like disconnecting the postgrest from the rails app, I still don't want to subject anyone to the lengthy set up.  
+
+**A good tool *just works*.**
+
+And Looper, as it is right now, isn't that.  :(  So, with a heavy heart, I'm declaring this repo dead.  
+
+BUT there may be hope!  I'm going go try remaking Looper into a front-end only project using [Opal](https://opalrb.com/), a Ruby to JavaScript source to source compiler.  That way, I can host it, and you can break it :D (in your own browser, without any harm to my 'boopa)
+
 
 ## story behind Looper
 When I first learning to code, I found it very difficult to keep track of the iterative pattern and all the syntax to set it up.  I also didn't know `binding.pry` existed, so I stuck `puts` everywhere.  It was very tedious and I always wished there was some kind of tool that would show me what each variable's value was at the end of every line.  So I made Looper.  I hope it can help others learn to code because coding can be so fun.
